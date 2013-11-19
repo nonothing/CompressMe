@@ -29,87 +29,118 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 package com.def.compressme.model;
-
+/**
+ * This class is intended for use by seeking or receiving the symbols of the alphabet.
+ */
 public class Alphabet {
-    private final String RUSSIAN_LOWER_CASE = "àáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ";
-    private final String RUSSIAN_UPPER_CASE = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
-    private final String TRANSLIT_LOWER_CASE[] = { "a", "b", "v", "g", "d", "e", "*", "z",
-            "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "y", "f",
-            "x", "c", "\\", "w", "$", "<", "u", "q", "[", "]", "¹"};
-    private final String TRANSLIT_UPPER_CASE[] = { "A", "B", "V", "G", "D", "E", "#", "Z",
-            "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "Y", "F",
-            "X", "C", "/", "W", "|", ">", "U", "Q", "{", "}", "^"};
+    private final static String RUSSIAN_LOWER_CASE = "àáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ";
+    private final static String RUSSIAN_UPPER_CASE = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
+    private final static String TRANSLIT_LOWER_CASE = "abvgde*zijklmnoprstyfxc\\w$<uq[]¹";
+    private final static String TRANSLIT_UPPER_CASE = "ABVGDE#ZIJKLMNOPRSTYFXC/W|>UQ{}^";
     
-    
+    /**Indicates whether the specified character is an upper case translit alphabet.
+     * @param symbol - the character to check.
+     * @return true if symbol is an upper case translit; false otherwise. 
+     */
     public boolean isUpperCase(char symbol) {
-        for (int i = 0; i < TRANSLIT_LOWER_CASE.length; i++) {
-            if (TRANSLIT_UPPER_CASE[i].toCharArray()[0] == symbol) {
-                return true;
-            }
+        if (TRANSLIT_UPPER_CASE.indexOf(symbol) >= 0) {
+            return true;
         }
         return false;
     }
     
+    /**Indicates whether the specified character is a lower case translit alphabet.
+     * @param symbol - the character to check.
+     * @return true if symbol is a lower case translit; false otherwise. 
+     */
     public boolean isLowerCase(char symbol) {
-        for (int i = 0; i < TRANSLIT_LOWER_CASE.length; i++) {
-            if (TRANSLIT_LOWER_CASE[i].toCharArray()[0] == symbol) {
-                return true;
-            }
+        if (TRANSLIT_LOWER_CASE.indexOf(symbol) >= 0) {
+            return true;
         }
         return false;
     }
     
+    /**Indicates whether the specified character is a latin alphabet.
+     * @param symbol - the character to check.
+     * @return true if symbol is a latin; false otherwise. 
+     */
     public boolean isEnglish(char symbol) {
         return (symbol >= 'a' && symbol <= 'z')
                 || (symbol >= 'A' && symbol <= 'Z');
     }
 
+    /**Check if symbol is in translit alphabet.
+     * @param symbol - the char value to find.
+     * @return true if specified symbol was found; false otherwise.
+     */
     public boolean isSymbolAll(char symbol) {
         return isUpperCase(symbol) || isLowerCase(symbol);
     }
 
+    /**Returns the index symbol in translit alphabet.
+     * @param symbol - the char value to find.
+     * @return index if specified symbol was found; else -1.     
+     */
     public int findSymbol(char symbol) {
-        int result = 0;
         if (isUpperCase(symbol)) {
-            for (int index = 0; index < TRANSLIT_LOWER_CASE.length; index++) {
-                if (TRANSLIT_UPPER_CASE[index].toCharArray()[0] == symbol) {
-                    result = index;
-                }
-            }
+            return TRANSLIT_UPPER_CASE.indexOf(symbol);
         } else {
-            for (int index = 0; index < TRANSLIT_LOWER_CASE.length; index++) {
-                if (TRANSLIT_LOWER_CASE[index].toCharArray()[0] == symbol) {
-                    result = index;
-                }
-            }
+            return TRANSLIT_LOWER_CASE.indexOf(symbol);
         }
-        return result;
-    }
-
-    public String getTranslitLow(int index){
-        return TRANSLIT_LOWER_CASE[index];
     }
     
-    public String getTranslitHigh(int index){
-        return TRANSLIT_UPPER_CASE[index];
+    /**Returns the character symbol in lower case translit alphabet.
+     * @param index - the char value to find.
+     * @return the character symbol.
+     */
+    public char getTranslitLow(int index){
+        return TRANSLIT_LOWER_CASE.charAt(index);
     }
-
+    
+    /**Returns the character symbol in upper case translit alphabet.
+     * @param index - the int value to find.
+     * @return the character symbol.
+     */
+    public char getTranslitHigh(int index){
+        return TRANSLIT_UPPER_CASE.charAt(index);
+    }
+    
+    /**Returns the character symbol in upper case Russian alphabet.
+     * @param symbol - the char value to find.
+     * @return the character symbol.
+     */
     public char getRussianUpperCaseSymbol(char symbol){
         return RUSSIAN_UPPER_CASE.charAt(findSymbol(symbol));
     }
     
+    /**Returns the index symbol in upper case Russian alphabet.
+     * @param symbol - the char value to find.
+     * @return the character at the index.
+     */
     public int getRussianUpperCaseIndex(char symbol){
         return RUSSIAN_UPPER_CASE.indexOf(symbol);
     }
     
+    /**Returns the character symbol in lower case Russian alphabet.
+    * @param symbol - the char value to find.
+    * @return the character symbol.
+    */
     public char getRussianLowerCaseSymbol(char symbol){
         return RUSSIAN_LOWER_CASE.charAt(findSymbol(symbol));
     }
     
+    /**Returns the index symbol in lower case Russian alphabet.
+    * @param symbol - the char value to find.
+    * @return the character at the index.
+    */
     public int getRussianLowerCaseIndex(char symbol){
         return RUSSIAN_LOWER_CASE.indexOf(symbol);
     }
     
+     /**Indicates whether the specified character is a cyrillic alphabet.
+     * @param symbol - the character to check.
+     * @return true if symbol is a Cyrillic symbol; false otherwise. 
+     */
     public boolean isRussian(char symbol) {
         return (symbol >= 'à' && symbol <= 'ÿ')
                 || (symbol >= 'À' && symbol <= 'ÿ');

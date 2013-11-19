@@ -29,10 +29,8 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 package com.def.compressme.tests;
- import org.junit.Test;
-
+import org.junit.Test;
 import com.def.compressme.model.Chiper;
-
 import static org.junit.Assert.assertEquals;
 
 public class ChiperTest {
@@ -81,17 +79,17 @@ public class ChiperTest {
     }
 
 
-    @Test   // TODO fixed one space
+    @Test   
     public void test7() { 
         assertChiper("солнце shines €рко in the голубом sky", "&solnce'shines '^rko'in the 'Golybom'sky", "солнце shines €рко in the голубом sky"); 
     }
 
-    @Test // TODO fixed one space
+    @Test 
     public void test8() {
         assertChiper("sun светит brightly в blue небе", "&'sun 'Svetit'brightly ' v'blue 'Nebe", "sun светит brightly в blue небе");
     }
 
-    @Test // TODO fixed one space
+    @Test 
     public void test9() {
         assertChiper("sun shines €рко в blue sky", "&'sun shines '^rko v'blue sky", "sun shines €рко в blue sky");
     }
@@ -111,17 +109,20 @@ public class ChiperTest {
         assertChiper("ѕ–»¬ ет", "&PRIVEt", "ѕ–»¬≈“");
     }
 
-    @Test //TODO fixed  Є == e
+    @Test
     public void test13() {
-        assertChiper("а б в г д е Є ж з и й к л м н о п р с т у ф х ч ц ш щ ь ы ъ э ю €", "&a b v g d e e * z i j k l m n o p r s t y f x \\ c w $ q u < [ ]^");
+        assertChiper(
+                "а б в г д е Є ж з и й к л м н о п р с т у ф х ч ц ш щ ь ы ъ э ю €",
+                "&a b v g d e e * z i j k l m n o p r s t y f x \\ c w $ q u < [ ]^",
+                "а б в г д е е ж з и й к л м н о п р с т у ф х ч ц ш щ ь ы ъ э ю €");
     }
 
-    @Test // TODO fixed Є = е 
+    @Test 
     public void test14() {     
-        assertChiper("Є", "&e");
+        assertChiper("Є", "&e", "е");
     }
 
-    @Test // TODO fixed
+    @Test 
     public void test15() {
         assertChiper("а б в г д е ж з и й к л м н о п р с т у ф х ч ц ш щ ь ы ъ э ю €",
                 "&a b v g d e * z i j k l m n o p r s t y f x \\ c w $ q u < [ ]^");
@@ -227,7 +228,7 @@ public class ChiperTest {
         assertChiper("яяяяяя9999яяя9я9я9я", "&^^^^єє9999^^^9^9^9^", "яяяяяя 9999 яяя 9€ 9€ 9€" );
     }
 
-    @Test  // TODO don't fix
+    @Test   // TODO don't fix
     public void test36() {
         assertChiper("€€€€€€9999€€€9€9€9€", "&єєєєєє9999^єє9^9^9^", "€€€€€€ 9999 €€€ 9 € 9€ 9€");
     }
@@ -242,12 +243,12 @@ public class ChiperTest {
         assertChiper("€€€€€€€€€€€€€€€", "&єєєєєєєєєєєєєєє");
     }
 
-    @Test // TODO fixed
+    @Test 
     public void test40() {
         assertChiper("\"я€я€я€я€я\"", "&\"^є^є^є^є^\"");
     }
 
-    @Test  // TODO fixed
+    @Test  
     public void test41() {
         assertChiper("\"јаајаајаајаај\"", "&\"AaaAaaAaaAaaA\"");
     }
@@ -261,11 +262,18 @@ public class ChiperTest {
     public void test43() {
         assertChiper("\"јбв гд”йе\"", "&\"AbvKgdYje\"");
     }
+    
     @Test  
     public void test44() {
         assertChiper(" ака€ сегодн€ хороша€ \"ѕо√оƒƒј\", but много работы!", "&KAkaєSegodnєXorowaє\"PoGoDDA\",'but 'MnogoRabotu!");
     }
     
-    
-
+    @Test  
+    public void test45() {
+        assertChiper("\" ака€ сегодн€ хороша€ ѕо√оƒƒј\", but много работы!", "&\"Kakaє segodnє xorowaє PoGoDDA\",'but 'MnogoRabotu!");
+    }
+    @Test  
+    public void test46() {
+        assertChiper("\" ака€ сегодн€ 4342 хороша€ ѕо√оƒƒј\", but много работы!", "&\"Kakaє segodnє 4342 xorowaє PoGoDDA\",'but 'MnogoRabotu!");
+    }
 }

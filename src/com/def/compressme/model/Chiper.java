@@ -29,7 +29,15 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 package com.def.compressme.model;
-
+/**
+ * This class is used to encrypt / decrypt text the following rules.
+ *<p>1. Removed a space and the next character is written with a capital letter.
+ *<p>2. If the word begins with a capital letter is the second character is written with a capital letter.
+ *<p>3. If the word in upper case the third character of a word is spelled with a capital letter.
+ *<p>4. If meets latin letter that we write everything in single quotes till we find Cyrillic.
+ *<p>5. If the text in double quotes then translate it to the transliteration ignoring the first three rules .
+ *<p>6. All the rest is written in the order in which they were.
+ */
 public class Chiper {
     private static final char MY_CRYPT = '&';
     private int countUp;
@@ -52,7 +60,12 @@ public class Chiper {
         isUp = false;
         isOriginalChar = false;
     }
-
+    
+    
+    /**The encrypted text to the specified rules (see description of the class).
+     * @param text - the string to encrypt.
+     * @return the encrypt text. 
+     */
     public String translateToTranslit(String text) {
         init();
         text = text.replace('¸', 'å');
@@ -92,17 +105,10 @@ public class Chiper {
         return newText.toString();
     }
 
-    private boolean isOriginalChar() {
-        if (symbol == '"') {
-            if (!isOriginalChar) {
-                isOriginalChar = true;
-            } else {
-                isOriginalChar = false;
-            }
-        }
-        return isOriginalChar;
-    }
-
+    /**Decrypts the encrypted text to the specified rules (see description of the class).
+     * @param text - the string to decrypt.
+     * @return the original text. 
+     */
     public String translateToRus(String text) {
         init();
 
@@ -153,11 +159,26 @@ public class Chiper {
         }
         return newText.toString().trim().replace("  ", "");
     }
-
+    
+    /**Calculates the length text translated in transliteration.
+     * @param text - the string to test.
+     * @return the length of the text in transliteration.
+     */
     public int lenghtTranslate(String text) {
         return translateToTranslit(text).length();
     }
 
+    private boolean isOriginalChar() {
+        if (symbol == '"') {
+            if (!isOriginalChar) {
+                isOriginalChar = true;
+            } else {
+                isOriginalChar = false;
+            }
+        }
+        return isOriginalChar;
+    }
+    
     private void checkEnglishCharInRussian(char symbol) {
 
         if (!alphabet.isEnglish(symbol)) {
